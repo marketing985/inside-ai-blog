@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+import NewsletterBanner from '../components/NewsletterBanner.astro'
+---
+
+<BaseLayout title="About" description="Sunil Katal writes about using AI every day — the tools, the results, and the honest takes.">
+  <Nav />
+  <div class="px-10 py-16 max-w-[720px] mx-auto">
+    <h1 class="text-4xl font-black leading-tight mb-8">
+      I'm Sunil. I use AI every day so you don't have to figure it out alone.
+    </h1>
+
+    <p class="text-[15px] leading-[1.8] text-dark mb-6">
+      I'm a co-founder based in Gurugram. I started inside.ai because I couldn't find a single honest account of how AI actually gets used in a real business — not the hype, not the theory, just the day-to-day reality. So I write it myself.
+    </p>
+    <p class="text-[15px] leading-[1.8] text-dark mb-10">
+      Every day I use Claude, ChatGPT, Gemini, Midjourney, Perplexity, and a dozen other tools. Some of them are genuinely transformative. Some are overhyped. I write about both.
+    </p>
+
+    <div class="border-l-4 border-accent pl-6 mb-12">
+      <h2 class="text-[13px] font-black uppercase tracking-tag mb-4">What to expect on inside.ai</h2>
+      <ul class="flex flex-col gap-3 text-[13px] text-dark list-none p-0">
+        <li><strong>Deep Dives</strong> — Long-form experiments, comparisons, and honest reviews</li>
+        <li><strong>Daily Logs</strong> — Short, dated notes on what I used and what happened</li>
+        <li><strong>Tool Reviews</strong> — Specific takes on the AI tools worth your time</li>
+        <li><strong>Opinions</strong> — Unfiltered views on where AI is actually going</li>
+      </ul>
+    </div>
+  </div>
+  <NewsletterBanner />
+  <Footer />
+</BaseLayout>
