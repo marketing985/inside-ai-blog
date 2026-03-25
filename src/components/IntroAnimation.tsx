@@ -42,8 +42,18 @@ export default function IntroAnimation() {
     }
     animate()
 
+    const handleResize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+    window.addEventListener('resize', handleResize)
+
     const timer = setTimeout(() => exit(), 4200)
-    return () => { clearTimeout(timer); cancelAnimationFrame(animFrame) }
+    return () => {
+      clearTimeout(timer)
+      cancelAnimationFrame(animFrame)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   const exit = () => {
