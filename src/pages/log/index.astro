@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Nav from '../../components/Nav.astro'
+import Footer from '../../components/Footer.astro'
+import { getCollection } from 'astro:content'
+
+const entries = (await getCollection('log')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+)
+---
+
+<BaseLayout title="Daily Log">
+  <Nav />
+  <div class="px-10 py-10 max-w-[720px] mx-auto">
+    <h1 class="text-5xl font-black mb-2">DAILY LOG</h1>
+    <p class="text-muted text-sm mb-10">AI as I actually use it, day by day.</p>
+    <div class="flex flex-col" id="log-list">
+      {entries.map(entry => {
+        const date = new Intl.DateTimeFormat('en-GB', {
+          day: 'numeric', month: 'short', year: 'numeric'
+        }).format(entry.data.date)
+        return (
+          <div class="log-entry flex gap-8 items-start py-6 border-b border-border last:border-b-0" style="display:none">
+            <span class="text-[10px] text-[#aaa] font-semibold min-w-[72px] pt-1 uppercase">{date}</span>
+            <div>
+              <a href={`/log/${entry.slug}`} class="no-underline text-dark hover:opacity-70">
+                <h3 class="text-[14px] font-bold leading-snug mb-1">{entry.data.title}</h3>
+              </a>
+              <p class="text-[11px] text-muted">{entry.data.summary}</p>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+    <div class="text-center mt-10">
+      <button id="log-load-more" class="btn-accent px-8 py-3" style="display:none">Load more</button>
+    </div>
+  </div>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const ITEMS = 10
+  const entries = Array.from(document.querySelectorAll('.log-entry')) as HTMLElement[]
+  const btn = document.getElementById('log-load-more') as HTMLButtonElement
+  let shown = ITEMS
+
+  function render() {
+    entries.forEach((el, i) => { el.style.display = i < shown ? 'flex' : 'none' })
+    if (btn) btn.style.display = shown >= entries.length ? 'none' : 'block'
+  }
+
+  btn?.addEventListener('click', () => { shown += ITEMS; render() })
+  render()
+</script>

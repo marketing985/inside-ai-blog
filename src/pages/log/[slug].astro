@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Nav from '../../components/Nav.astro'
+import Footer from '../../components/Footer.astro'
+import { getCollection, getEntry } from 'astro:content'
+
+export async function getStaticPaths() {
+  const entries = await getCollection('log')
+  return entries.map(entry => ({ params: { slug: entry.slug } }))
+}
+
+const { slug } = Astro.params
+const entry = await getEntry('log', slug!)
+if (!entry) return Astro.redirect('/log')
+
+const allEntries = (await getCollection('log')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+)
+const idx = allEntries.findIndex(e => e.slug === slug)
+const prev = allEntries[idx + 1]
+const next = allEntries[idx - 1]
+
+const { Content } = await entry.render()
+const formattedDate = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric'
+}).format(entry.data.date)
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <Nav />
+  <article class="px-10 py-12 max-w-[680px] mx-auto">
+    <span class="tag-pill-dark">DAILY LOG</span>
+    <div class="text-4xl font-black mt-4 mb-2">{formattedDate}</div>
+    <h1 class="text-2xl font-black leading-snug mb-8">{entry.data.title}</h1>
+    <div class="[&_p]:text-[15px] [&_p]:leading-[1.8] [&_p]:mb-5 [&_p]:text-dark">
+      <Content />
+    </div>
+    <div class="flex justify-between mt-12 pt-6 border-t border-border text-[11px]">
+      {prev
+        ? <a href={`/log/${prev.slug}`} class="text-dark no-underline hover:text-accent">← {prev.data.title}</a>
+        : <span />
+      }
+      {next && (
+        <a href={`/log/${next.slug}`} class="text-dark no-underline hover:text-accent">{next.data.title} →</a>
+      )}
+    </div>
+  </article>
+  <Footer />
+</BaseLayout>
