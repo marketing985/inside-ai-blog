@@ -1,17 +1,107 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+import TagPill from '../components/TagPill.astro'
+import ArticleCard from '../components/ArticleCard.astro'
+import SidebarPost from '../components/SidebarPost.astro'
+import Ticker from '../components/Ticker.astro'
+import NewsletterBanner from '../components/NewsletterBanner.astro'
+import { getCollection } from 'astro:content'
 
+const allArticles = (await getCollection('articles')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+)
+const allLogs = (await getCollection('log')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+)
+
+const heroPost = allArticles[0]
+const sidebarPosts = allArticles.slice(1, 4)
+const recentArticles = allArticles.slice(4, 7)
+const recentLogs = allLogs.slice(0, 3)
+
+const tickerItems = allArticles.slice(0, 4).map(a => a.data.title)
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home" description="AI, as I actually use it. By Sunil Katal.">
+  <Nav />
+
+  <Ticker items={tickerItems.length ? tickerItems : ['Welcome to inside.ai — AI as I actually use it']} />
+
+  {heroPost && (
+    <div class="grid grid-cols-[2fr_1fr] border-b border-border mx-10">
+      <div class="bg-dark text-white p-10 border-r border-[#333]">
+        <TagPill tag={heroPost.data.tag} />
+        <a href={`/articles/${heroPost.slug}`} class="no-underline text-white hover:opacity-80 transition-opacity">
+          <h1 class="text-3xl font-black leading-tight mt-4 mb-4">{heroPost.data.title}</h1>
+        </a>
+        <p class="text-[13px] text-[#aaa] leading-relaxed mb-6">{heroPost.data.excerpt}</p>
+        <div class="flex gap-4 text-[10px] text-[#666]">
+          <span>{new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(heroPost.data.date)}</span>
+          <span>·</span>
+          <span>{heroPost.data.readTime}</span>
+        </div>
+        <a href={`/articles/${heroPost.slug}`} class="btn-accent inline-block mt-6">Read Article →</a>
+      </div>
+      <div class="flex flex-col">
+        {sidebarPosts.map(post => (
+          <SidebarPost
+            title={post.data.title}
+            slug={post.slug}
+            tag={post.data.tag}
+            date={post.data.date}
+            readTime={post.data.readTime}
+          />
+        ))}
+      </div>
+    </div>
+  )}
+
+  {recentArticles.length > 0 && (
+    <div>
+      <div class="px-10 py-5 text-[10px] font-black tracking-wide border-b-2 border-dark flex justify-between items-center">
+        <span>RECENT ARTICLES</span>
+        <a href="/articles" class="text-accent no-underline font-bold">View all →</a>
+      </div>
+      <div class="grid grid-cols-3 px-10 border-b border-border">
+        {recentArticles.map(post => (
+          <ArticleCard
+            title={post.data.title}
+            slug={post.slug}
+            tag={post.data.tag}
+            excerpt={post.data.excerpt}
+            date={post.data.date}
+            readTime={post.data.readTime}
+          />
+        ))}
+      </div>
+    </div>
+  )}
+
+  {recentLogs.length > 0 && (
+    <div class="bg-gray-50 px-10 py-8 border-b border-border">
+      <div class="text-[10px] font-black tracking-wide border-l-4 border-accent pl-3 mb-5">
+        DAILY LOG — AI AS I ACTUALLY USE IT
+      </div>
+      <div class="flex flex-col gap-0">
+        {recentLogs.map(entry => (
+          <div class="flex gap-5 items-start py-4 border-b border-[#e0e0e0] last:border-b-0">
+            <span class="text-[10px] text-[#aaa] min-w-[52px] font-semibold pt-0.5">
+              {new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' }).format(entry.data.date).toUpperCase()}
+            </span>
+            <div>
+              <a href={`/log/${entry.slug}`} class="no-underline text-dark hover:opacity-70">
+                <h4 class="text-[13px] font-bold leading-snug mb-1">{entry.data.title}</h4>
+              </a>
+              <p class="text-[11px] text-muted">{entry.data.summary}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <NewsletterBanner />
+  <Footer />
+</BaseLayout>
