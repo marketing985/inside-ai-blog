@@ -4,9 +4,10 @@ import '../styles/global.css'
 interface Props {
   title: string
   description?: string
+  image?: string
 }
 
-const { title, description = 'AI, as I actually use it. By Sunil Katal.' } = Astro.props
+const { title, description = 'AI, as I actually use it. By Sunil Katal.', image = '/og-default.jpg' } = Astro.props
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +15,13 @@ const { title, description = 'AI, as I actually use it. By Sunil Katal.' } = Ast
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta property="og:title" content={`${title} | inside.ai`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site).toString()} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | inside.ai`} />
+    <meta name="twitter:description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} | inside.ai</title>
   </head>
