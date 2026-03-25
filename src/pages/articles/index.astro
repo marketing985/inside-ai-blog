@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Nav from '../../components/Nav.astro'
+import Footer from '../../components/Footer.astro'
+import ArticleCard from '../../components/ArticleCard.astro'
+import { getCollection } from 'astro:content'
+
+const allArticles = (await getCollection('articles')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+)
+const tags = ['ALL', 'DEEP DIVE', 'TOOLS', 'OPINION']
+---
+
+<BaseLayout title="Articles">
+  <Nav />
+  <div class="px-10 py-10 max-w-screen-xl mx-auto">
+    <h1 class="text-5xl font-black mb-8">ALL ARTICLES</h1>
+
+    <div class="flex gap-3 mb-10" id="tag-filter">
+      {tags.map(tag => (
+        <button
+          data-tag={tag}
+          class="tag-pill border border-dark cursor-pointer hover:bg-dark hover:text-accent transition-colors"
+          style={tag === 'ALL' ? 'background:#111;color:#A8FF00;' : ''}
+        >
+          {tag}
+        </button>
+      ))}
+    </div>
+
+    <div class="grid grid-cols-3 gap-8" id="article-grid">
+      {allArticles.map(post => (
+        <div data-tag={post.data.tag} class="article-item" style="display:none">
+          <ArticleCard
+            title={post.data.title}
+            slug={post.slug}
+            tag={post.data.tag}
+            excerpt={post.data.excerpt}
+            date={post.data.date}
+            readTime={post.data.readTime}
+          />
+        </div>
+      ))}
+    </div>
+    <div class="text-center mt-10">
+      <button id="load-more" class="btn-accent px-8 py-3" style="display:none">Load more</button>
+    </div>
+  </div>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const ITEMS_PER_PAGE = 10
+  const buttons = document.querySelectorAll('#tag-filter button')
+  const items = Array.from(document.querySelectorAll('.article-item')) as HTMLElement[]
+  const loadMoreBtn = document.getElementById('load-more') as HTMLButtonElement
+  let activeTag = 'ALL'
+  let visibleCount = ITEMS_PER_PAGE
+
+  function renderItems() {
+    const filtered = items.filter(item =>
+      activeTag === 'ALL' || item.getAttribute('data-tag') === activeTag
+    )
+    filtered.forEach((item, i) => {
+      item.style.display = i < visibleCount ? 'block' : 'none'
+    })
+    if (loadMoreBtn) {
+      loadMoreBtn.style.display = visibleCount >= filtered.length ? 'none' : 'block'
+    }
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeTag = btn.getAttribute('data-tag') ?? 'ALL'
+      visibleCount = ITEMS_PER_PAGE
+      buttons.forEach(b => { (b as HTMLElement).style.cssText = '' })
+      ;(btn as HTMLElement).style.cssText = 'background:#111;color:#A8FF00;'
+      renderItems()
+    })
+  })
+
+  loadMoreBtn?.addEventListener('click', () => {
+    visibleCount += ITEMS_PER_PAGE
+    renderItems()
+  })
+
+  renderItems()
+</script>
