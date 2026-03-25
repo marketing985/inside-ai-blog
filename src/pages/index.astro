@@ -8,6 +8,7 @@ import SidebarPost from '../components/SidebarPost.astro'
 import Ticker from '../components/Ticker.astro'
 import NewsletterBanner from '../components/NewsletterBanner.astro'
 import { getCollection } from 'astro:content'
+import IntroAnimation from '../components/IntroAnimation'
 
 const allArticles = (await getCollection('articles')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -25,6 +26,7 @@ const tickerItems = allArticles.slice(0, 4).map(a => a.data.title)
 ---
 
 <BaseLayout title="Home" description="AI, as I actually use it. By Sunil Katal.">
+  <IntroAnimation client:only="react" />
   <Nav />
 
   <Ticker items={tickerItems.length ? tickerItems : ['Welcome to inside.ai — AI as I actually use it']} />
