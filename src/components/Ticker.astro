@@ -1,0 +1,19 @@
+---
+interface Props {
+  items: string[]
+}
+const { items } = Astro.props
+const text = items.join('     ·     ')
+---
+<div class="bg-dark text-accent text-[10px] font-bold tracking-tag py-2 px-10 overflow-hidden whitespace-nowrap">
+  <div class="animate-[marquee_30s_linear_infinite] inline-block">
+    {text}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{text}
+  </div>
+</div>
+
+<style>
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>

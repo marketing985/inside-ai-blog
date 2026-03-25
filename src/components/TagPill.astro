@@ -1,0 +1,10 @@
+---
+interface Props {
+  tag: string
+  variant?: 'dark' | 'outline'
+}
+const { tag, variant = 'dark' } = Astro.props
+---
+<span class={variant === 'dark' ? 'tag-pill-dark' : 'tag-pill-outline'}>
+  {tag}
+</span>

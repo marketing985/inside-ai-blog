@@ -1,0 +1,22 @@
+---
+import TagPill from './TagPill.astro'
+
+interface Props {
+  title: string
+  slug: string
+  tag: string
+  excerpt: string
+  date: Date
+  readTime: string
+}
+const { title, slug, tag, excerpt, date, readTime } = Astro.props
+const formattedDate = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(date)
+---
+<article class="py-7 border-r border-border pr-6 mr-6 last:border-r-0 last:pr-0 last:mr-0">
+  <TagPill tag={tag} />
+  <a href={`/articles/${slug}`} class="no-underline text-dark hover:opacity-70 transition-opacity">
+    <h3 class="text-sm font-black leading-snug mt-2 mb-2">{title}</h3>
+  </a>
+  <p class="text-xs text-muted leading-relaxed mb-3">{excerpt}</p>
+  <span class="text-[10px] text-[#bbb]">{formattedDate} · {readTime}</span>
+</article>

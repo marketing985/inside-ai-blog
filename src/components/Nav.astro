@@ -1,0 +1,18 @@
+---
+const navLinks = [
+  { href: '/articles', label: 'Articles' },
+  { href: '/log', label: 'Daily Log' },
+  { href: '/about', label: 'About' },
+]
+---
+<nav class="flex justify-between items-center px-10 py-[18px] border-b-2 border-dark sticky top-0 bg-white z-50">
+  <a href="/" class="text-[15px] font-black tracking-logo no-underline text-dark">INSIDE.AI</a>
+  <div class="flex gap-7">
+    {navLinks.map(link => (
+      <a href={link.href} class="text-[11px] font-semibold tracking-tag text-muted uppercase no-underline hover:text-dark transition-colors">
+        {link.label}
+      </a>
+    ))}
+  </div>
+  <a href="/#newsletter" class="btn-accent">Subscribe Free</a>
+</nav>
