@@ -1,18 +1,12 @@
 ---
-// Beehiiv JS embed will replace the placeholder form in Task 14
 ---
-<section id="newsletter" class="bg-dark text-white px-10 py-12 flex justify-between items-center">
+<section id="newsletter" class="bg-dark text-white px-10 py-12 flex justify-between items-center gap-10 flex-wrap">
   <div>
     <h2 class="text-2xl font-black leading-snug">AI, as I actually use it.<br />In your inbox.</h2>
     <p class="text-[12px] text-[#aaa] mt-2">No hype. No sponsored takes. Just real notes from daily use. Free.</p>
   </div>
-  <!-- REPLACE WITH BEEHIIV EMBED CODE IN TASK 14 -->
-  <form action="#" onsubmit="return false;" class="flex">
-    <input
-      type="email"
-      placeholder="your@email.com"
-      class="bg-[#222] border border-[#444] text-white text-[12px] px-4 py-3 w-64 outline-none placeholder:text-[#666]"
-    />
-    <button type="submit" class="btn-accent px-5 py-3">Subscribe →</button>
-  </form>
+  <div>
+    <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+    <iframe src="https://subscribe-forms.beehiiv.com/eef40923-e282-42fe-8b7f-51e51b5f62f3" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 560px; height: 291px; margin: 0; border-radius: 0px 0px 0px 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
+  </div>
 </section>
