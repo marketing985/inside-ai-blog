@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+---
+
+<BaseLayout title="Terms of Use" description="Terms of Use for inside.ai.">
+  <Nav />
+  <main class="max-w-[680px] mx-auto px-6 py-16">
+    <p class="text-[11px] text-muted uppercase tracking-tag mb-4">Legal</p>
+    <h1 class="text-4xl font-black mb-2">Terms of Use</h1>
+    <p class="text-muted text-sm mb-12">Last updated: 27 March 2026</p>
+
+    <div class="prose prose-sm max-w-none space-y-8 text-[15px] leading-relaxed text-dark">
+
+      <section>
+        <h2 class="text-lg font-black mb-3">About this site</h2>
+        <p>inside.ai is a personal blog run by Sunil Katal, available at insideai.in. By using this site, you agree to these terms.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Content ownership</h2>
+        <p>All articles, daily log entries, and other content published on inside.ai are the original work of Sunil Katal unless otherwise stated. You may share or quote content from this site with attribution, but you may not reproduce full articles without permission.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">No professional advice</h2>
+        <p>The content on inside.ai is for informational and educational purposes only. Nothing on this site constitutes professional advice — legal, financial, medical, or otherwise. Always do your own research and consult a qualified professional before making decisions based on anything you read here.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Affiliate links</h2>
+        <p>Some links on this site may be affiliate links. This means if you click and make a purchase, inside.ai may earn a commission at no extra cost to you. We only recommend tools and services we genuinely use or believe in. Affiliate relationships do not influence editorial content.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Comments</h2>
+        <p>Comments on articles are powered by Giscus and require a GitHub account. You are responsible for the content of your comments. We reserve the right to remove comments that are abusive, spam, or otherwise inappropriate.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Disclaimer</h2>
+        <p>inside.ai is provided as-is. We make no guarantees about the accuracy, completeness, or timeliness of any content. Use of this site is at your own risk.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Contact</h2>
+        <p>Questions about these terms? Email <a href="mailto:info@houseofaetheria.com" class="underline">info@houseofaetheria.com</a>.</p>
+      </section>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

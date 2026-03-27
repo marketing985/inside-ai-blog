@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+---
+
+<BaseLayout title="Privacy Policy" description="Privacy Policy for inside.ai — how we collect and use your data.">
+  <Nav />
+  <main class="max-w-[680px] mx-auto px-6 py-16">
+    <p class="text-[11px] text-muted uppercase tracking-tag mb-4">Legal</p>
+    <h1 class="text-4xl font-black mb-2">Privacy Policy</h1>
+    <p class="text-muted text-sm mb-12">Last updated: 27 March 2026</p>
+
+    <div class="prose prose-sm max-w-none space-y-8 text-[15px] leading-relaxed text-dark">
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Who we are</h2>
+        <p>inside.ai is a personal blog run by Sunil Katal. This site is available at insideai.in. If you have questions about this policy, contact us at <a href="mailto:info@houseofaetheria.com" class="underline">info@houseofaetheria.com</a>.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">What data we collect</h2>
+        <p>We collect minimal data. Specifically:</p>
+        <ul class="list-disc pl-5 space-y-2 mt-3">
+          <li><strong>Email address</strong> — only if you choose to subscribe to the newsletter. This is collected and stored by Beehiiv, our newsletter provider.</li>
+          <li><strong>Comments</strong> — if you leave a comment on an article, this is handled through Giscus, which uses your GitHub account. We do not store comment data ourselves.</li>
+          <li><strong>No tracking cookies</strong> — we do not currently use Google Analytics or any tracking cookies.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">How we use your data</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>Your email is used only to send you the inside.ai newsletter. We do not sell or share your email with third parties.</li>
+          <li>You can unsubscribe at any time using the link at the bottom of any newsletter email.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Third-party services</h2>
+        <p>This site uses the following third-party services, each with their own privacy policies:</p>
+        <ul class="list-disc pl-5 space-y-2 mt-3">
+          <li><strong>Beehiiv</strong> — newsletter management. Handles email subscriptions and delivery.</li>
+          <li><strong>Giscus</strong> — article comments, powered by GitHub Discussions.</li>
+          <li><strong>Netlify</strong> — website hosting. May collect basic server logs.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Your rights</h2>
+        <p>You have the right to access, correct, or delete any personal data we hold about you. To request this, email us at <a href="mailto:info@houseofaetheria.com" class="underline">info@houseofaetheria.com</a>.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-black mb-3">Changes to this policy</h2>
+        <p>We may update this policy occasionally. The date at the top of this page reflects the most recent update. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
+      </section>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
