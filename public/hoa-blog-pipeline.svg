@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 820" font-family="system-ui, -apple-system, sans-serif">
+  <!-- Background -->
+  <rect width="680" height="820" fill="#0f0f0f" rx="12"/>
+
+  <!-- Title -->
+  <text x="340" y="44" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="600" letter-spacing="1">HOA BLOG AUTOMATION PIPELINE</text>
+  <text x="340" y="64" text-anchor="middle" fill="#666" font-size="11">2 posts/week · 41 seconds · ~₹13 per article</text>
+
+  <!-- TRIGGER -->
+  <rect x="220" y="84" width="240" height="44" rx="22" fill="#1a1a2e" stroke="#4f4fcc" stroke-width="1.5"/>
+  <text x="340" y="101" text-anchor="middle" fill="#8888ff" font-size="10" letter-spacing="1">TRIGGER</text>
+  <text x="340" y="118" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="500">launchd · Mon &amp; Thu 9am</text>
+
+  <!-- Arrow 1 -->
+  <line x1="340" y1="128" x2="340" y2="152" stroke="#333" stroke-width="1.5"/>
+  <polygon points="334,148 340,158 346,148" fill="#333"/>
+
+  <!-- Step 1 -->
+  <rect x="60" y="158" width="560" height="64" rx="8" fill="#111" stroke="#1e3a1e" stroke-width="1.5"/>
+  <rect x="60" y="158" width="4" height="64" rx="2" fill="#22c55e"/>
+  <text x="84" y="178" fill="#22c55e" font-size="10" font-weight="600" letter-spacing="1">STEP 1 · Claude Haiku · ~8s</text>
+  <text x="84" y="196" fill="#ffffff" font-size="13" font-weight="500">SEO Research</text>
+  <text x="84" y="212" fill="#888" font-size="11">Google + Reddit (r/DelhiNCR, r/SkincareAddiction) + Quora India</text>
+  <text x="580" y="196" text-anchor="end" fill="#22c55e" font-size="11">keywords · PAA · LSI</text>
+
+  <!-- Arrow 2 -->
+  <line x1="340" y1="222" x2="340" y2="246" stroke="#333" stroke-width="1.5"/>
+  <polygon points="334,242 340,252 346,242" fill="#333"/>
+
+  <!-- Step 2 -->
+  <rect x="60" y="252" width="560" height="64" rx="8" fill="#111" stroke="#1e3a1e" stroke-width="1.5"/>
+  <rect x="60" y="252" width="4" height="64" rx="2" fill="#22c55e"/>
+  <text x="84" y="272" fill="#22c55e" font-size="10" font-weight="600" letter-spacing="1">STEP 2 · Claude Haiku · ~8s</text>
+  <text x="84" y="290" fill="#ffffff" font-size="13" font-weight="500">Clinical Enrichment</text>
+  <text x="84" y="306" fill="#888" font-size="11">PubMed studies · India stats · treatment protocols · Delhi pricing</text>
+  <text x="580" y="290" text-anchor="end" fill="#22c55e" font-size="11">clinical facts</text>
+
+  <!-- Arrow 3 -->
+  <line x1="340" y1="316" x2="340" y2="340" stroke="#333" stroke-width="1.5"/>
+  <polygon points="334,336 340,346 346,336" fill="#333"/>
+
+  <!-- Step 3 -->
+  <rect x="60" y="346" width="560" height="64" rx="8" fill="#111" stroke="#1a2e3a" stroke-width="1.5"/>
+  <rect x="60" y="346" width="4" height="64" rx="2" fill="#38bdf8"/>
+  <text x="84" y="366" fill="#38bdf8" font-size="10" font-weight="600" letter-spacing="1">STEP 3 · Pexels API · ~3s</text>
+  <text x="84" y="384" fill="#ffffff" font-size="13" font-weight="500">Hero Image</text>
+  <text x="84" y="400" fill="#888" font-size="11">Search by keyword · download best landscape · convert to WebP</text>
+  <text x="580" y="384" text-anchor="end" fill="#38bdf8" font-size="11">blog-slug.webp</text>
+
+  <!-- Arrow 4 -->
+  <line x1="340" y1="410" x2="340" y2="434" stroke="#333" stroke-width="1.5"/>
+  <polygon points="334,430 340,440 346,430" fill="#333"/>
+
+  <!-- Step 4 -->
+  <rect x="60" y="440" width="560" height="64" rx="8" fill="#111" stroke="#3a1e1e" stroke-width="1.5"/>
+  <rect x="60" y="440" width="4" height="64" rx="2" fill="#f97316"/>
+  <text x="84" y="460" fill="#f97316" font-size="10" font-weight="600" letter-spacing="1">STEP 4 · Claude Opus · ~25s</text>
+  <text x="84" y="478" fill="#ffffff" font-size="13" font-weight="500">Article Generation</text>
+  <text x="84" y="494" fill="#888" font-size="11">1,200–1,600 words · brand voice · comparison tables · callout boxes · FAQ</text>
+  <text x="580" y="478" text-anchor="end" fill="#f97316" font-size="11">article HTML</text>
+
+  <!-- Arrow 5 -->
+  <line x1="340" y1="504" x2="340" y2="528" stroke="#333" stroke-width="1.5"/>
+  <polygon points="334,524 340,534 346,524" fill="#333"/>
+
+  <!-- Step 5 -->
+  <rect x="60" y="534" width="560" height="64" rx="8" fill="#111" stroke="#2a1e3a" stroke-width="1.5"/>
+  <rect x="60" y="534" width="4" height="64" rx="2" fill="#a78bfa"/>
+  <text x="84" y="554" fill="#a78bfa" font-size="10" font-weight="600" letter-spacing="1">STEP 5 · PHP Builder</text>
+  <text x="84" y="572" fill="#ffffff" font-size="13" font-weight="500">SEO Packaging</text>
+  <text x="84" y="588" fill="#888" font-size="11">4 JSON-LD schemas · 15 meta tags · OG · Twitter · Speakable</text>
+  <text x="580" y="572" text-anchor="end" fill="#a78bfa" font-size="11">blog-slug.php</text>
+
+  <!-- Arrow 6 -->
+  <line x1="340" y1="598" x2="340" y2="622" stroke="#333" stroke-width="1.5"/>
+  <polygon points="334,618 340,628 346,618" fill="#333"/>
+
+  <!-- Step 6 -->
+  <rect x="60" y="628" width="560" height="64" rx="8" fill="#111" stroke="#3a2a1e" stroke-width="1.5"/>
+  <rect x="60" y="628" width="4" height="64" rx="2" fill="#fbbf24"/>
+  <text x="84" y="648" fill="#fbbf24" font-size="10" font-weight="600" letter-spacing="1">STEP 6 · FTP + Notify</text>
+  <text x="84" y="666" fill="#ffffff" font-size="13" font-weight="500">Publish &amp; Alert</text>
+  <text x="84" y="682" fill="#888" font-size="11">Upload to Hostinger · update blog index · Mac popup · Telegram message</text>
+  <text x="580" y="666" text-anchor="end" fill="#fbbf24" font-size="11">live in seconds</text>
+
+  <!-- Footer stats -->
+  <rect x="60" y="716" width="168" height="60" rx="6" fill="#161616" stroke="#222" stroke-width="1"/>
+  <text x="144" y="740" text-anchor="middle" fill="#888" font-size="10" letter-spacing="1">TOTAL TIME</text>
+  <text x="144" y="762" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="700">41s</text>
+
+  <rect x="256" y="716" width="168" height="60" rx="6" fill="#161616" stroke="#222" stroke-width="1"/>
+  <text x="340" y="740" text-anchor="middle" fill="#888" font-size="10" letter-spacing="1">COST PER POST</text>
+  <text x="340" y="762" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="700">₹13</text>
+
+  <rect x="452" y="716" width="168" height="60" rx="6" fill="#161616" stroke="#222" stroke-width="1"/>
+  <text x="536" y="740" text-anchor="middle" fill="#888" font-size="10" letter-spacing="1">CADENCE</text>
+  <text x="536" y="762" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="700">2× / week</text>
+
+  <!-- Bottom label -->
+  <text x="340" y="800" text-anchor="middle" fill="#444" font-size="10">houseofaetheria.com · built with Claude Haiku + Opus + Pexels API</text>
+</svg>
