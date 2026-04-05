@@ -1,0 +1,139 @@
+---
+title: "I Built an AI Agent That Replies to Google Reviews. The Debugging Was the Real Story."
+date: 2026-04-03
+tag: DEEP DIVE
+excerpt: "I automated Google review replies for our aesthetic clinic using Claude. The architecture took two hours. Getting Google's API to cooperate took three more."
+readTime: "9 min read"
+featured: true
+---
+
+Every unanswered Google review is a public signal. Not just to the person who left it, but to every potential patient reading the page before booking. Miss a week and there are six sitting unanswered. Reply in a rush and you sound like a template. Reply inconsistently and the clinic's voice starts to fragment across the profile.
+
+I run House of Aetheria, a premium aesthetic clinic in Gurugram. We take brand seriously. An indifferent reply to a 5-star review, even a technically fine one, would feel like leaving a thank-you note in Comic Sans. The task warranted more care than I had time to give it manually. So I automated it.
+
+Here's exactly how I built it, what broke, and what I'd do differently.
+
+---
+
+## What Runs at 9AM Every Day Without Me
+
+The whole thing took one afternoon to build. A Python script runs every morning at 9AM IST via GitHub Actions. Four steps, no ongoing effort:
+
+1. Fetches all new reviews from Google Business Profile via API
+2. Claude reads the text and rating for each review
+3. 4-star and 5-star reviews get an automatic reply posted immediately, written in the clinic's voice
+4. 1-star, 2-star, and 3-star reviews trigger an email to me for approval before anything is posted
+
+The logic for that split was deliberate. Positive reviews are abundant and low-risk. A warm, brand-consistent reply is always right. Negative reviews are rare and high-stakes. A human should read the situation before responding. Automation handles the volume. Humans handle the sensitivity.
+
+---
+
+## The Step No Tutorial Mentions
+
+This is where most people get stuck, and it's entirely Google's fault for making the process opaque.
+
+Google Business Profile API access isn't something you simply enable in Cloud Console. You have to request it separately: fill out a form, explain your use case, and wait. We opened a support case and waited about ten days.
+
+When approval came through, I assumed I was done.
+
+I wasn't.
+
+**There are two completely separate steps.** Approval grants permission. Enabling the API in Cloud Console is what actually makes it work. These are different actions in different places, and neither one tells you clearly that the other exists.
+
+Most builders hit 403 errors for days after getting approved, convinced something is wrong with their OAuth setup or credentials. The code is usually fine. The API just isn't switched on.
+
+One more thing: the specific API to enable is "Google My Business API" (`mybusiness.googleapis.com`), not "Google Business Profile API." Both exist in the console. Only one works for reviews.
+
+---
+
+## The Architecture (The Easy Part)
+
+Once the API actually worked, the setup was clean.
+
+The core logic is Python using `google-auth` and `requests`. Reviews are fetched from:
+
+```
+https://mybusiness.googleapis.com/v4/{account_name}/{location_name}/reviews
+```
+
+Claude receives the review text, the star rating, and a system prompt describing the clinic's tone: specific, warm, never generic, always personal to what the patient actually wrote. The output sounds like the practice owner wrote it at 9AM with a coffee, not like a CRM tool generated it at midnight.
+
+Replies are posted back via a PATCH request to the same endpoint. For flagged reviews, a formatted email goes out via Gmail SMTP with the original review and a draft reply, waiting for a one-word approval.
+
+No server to maintain. No cloud instance. No monthly cost beyond the API calls.
+
+---
+
+## The Debugging That Actually Happened
+
+The code above took about two hours to write. The next three hours were this:
+
+**403 error on every review fetch. Wrong API domain.** I was using `mybusinessreviews.googleapis.com`, which Google introduced after splitting the My Business API into multiple sub-APIs. The reviews endpoint on that domain returns 403 for most accounts. The old `mybusiness.googleapis.com/v4/` domain still works and is what you should use. Read the 403 error body carefully. Google's responses often contain the exact Cloud Console link to fix the issue.
+
+**JSONDecodeError on GitHub Actions. Invisible characters in the secret.** The script ran perfectly locally. On Actions it failed with a JSON decode error on the token file. I'd copied the entire `token.json` contents as a single GitHub Secret. Terminal output wraps long lines, and copying from wrapped output embeds invisible line-break control characters. Those survive the paste into GitHub's secret input. When Python tries to parse the file on the other side, it chokes. The fix: never store JSON objects as secrets. Store individual string values: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`. Reconstruct the JSON in the workflow. Clean, no invisible characters.
+
+**OAuth crash on the server. A False that means nothing.** The local flow worked fine. The Actions flow crashed on auth with what looked like a browser-open attempt on a headless server. Here's why:
+
+The standard Google OAuth refresh check is:
+
+```python
+if creds.expired and creds.refresh_token:
+    creds.refresh(Request())
+```
+
+When a token is constructed manually from env vars, there's no `expiry` field set. Without it, `creds.expired` returns `False`. Not because the token is valid, but because it genuinely can't tell. The condition fails silently. Python falls through to `InstalledAppFlow.run_local_server()`, which tries to open a browser window on a machine that has none.
+
+Stop using `creds.expired` for this check. Use:
+
+```python
+if creds and creds.refresh_token:
+    creds.refresh(Request())
+```
+
+This always refreshes when a refresh token is present. That's exactly what you want on a headless server.
+
+---
+
+## Six Weeks of Data
+
+- Reviews auto-replied: 4-star and 5-star, same day
+- Negative reviews flagged for approval: 2 in the first month (both edited before posting)
+- Runs: daily, 9AM IST, zero manual trigger
+- Server cost: ₹0 (GitHub Actions free tier)
+- API cost: negligible, a few Claude calls per day
+
+---
+
+## What Zero Intervention Looks Like
+
+Six weeks. No intervention. Not once. Positive reviews get a reply within hours, personalised to what the patient actually wrote. The clinic's response rate on Google went from patchy to near-perfect. The tone is consistent every time.
+
+The system prompt took more iteration than the code. Getting Claude to write in a specific voice, not warm-and-generic but warm-and-specific, required clear rules: acknowledge the exact treatment mentioned, use the patient's name if provided, never use filler like "we appreciate your feedback," never make promises about future visits. The first few test replies were technically correct and completely lifeless. The fifth iteration felt right.
+
+The system prompt is the real product. The Python is plumbing.
+
+---
+
+## Four Things I'd Tell Someone Starting This Today
+
+**Read 403 error bodies before assuming it's a code problem.** Google's responses often contain the exact Cloud Console URL to fix the issue. The code is frequently fine. The configuration is not.
+
+**Test locally before touching GitHub Actions.** Every round trip through CI/CD is slow. A local `python3 run.py` catches 80% of problems before they become workflow failures.
+
+**Never store JSON blobs as GitHub Secrets.** Line-break corruption is invisible and maddening. Store each field separately.
+
+**OAuth on headless servers needs explicit refresh logic.** Never rely on `creds.expired` when credentials are constructed manually. Always check `creds.refresh_token` directly.
+
+---
+
+The automation itself isn't the interesting part. The interesting part was working out how to get Claude to sound like us. Not like a clinic, not like a bot. Like the specific people who built this place and care about it. That required more thought than any of the API problems.
+
+The Google API problems just required reading the error bodies.
+
+---
+
+*Built with: Python, Claude API (claude-opus-4-6), Google My Business API v4, Gmail SMTP, GitHub Actions. Running live at [houseofaetheria.com](https://www.houseofaetheria.com).*
+
+---
+
+*Enjoying insideai? Every week I publish new AI experiments and honest breakdowns. [Subscribe free.](https://insideai.in)*

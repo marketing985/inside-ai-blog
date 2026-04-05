@@ -1,24 +1,25 @@
 ---
-title: "How I Automated a Medical Clinic's Entire Blog With Claude — A Real-World Playbook"
+title: "How I Automated a Medical Clinic's Entire Blog With Claude: A Real-World Playbook"
 date: 2026-04-03
 tag: DEEP DIVE
-excerpt: "I built a system that publishes two SEO-optimised blog posts per week for our aesthetic clinic — automatically. Here's every decision, every mistake, and exactly how it works."
+excerpt: "I built a system that publishes two SEO-optimised blog posts per week for our aesthetic clinic, automatically. Here's every decision, every mistake, and exactly how it works."
 readTime: "10 min read"
+featured: true
 ---
 
 Most "AI content automation" tutorials show you how to generate 50 mediocre posts in 10 minutes. This is not that.
 
-This is a case study of building a production content pipeline for a premium aesthetic and wellness clinic — one where the writing has to be medically responsible, brand-consistent, and genuinely useful to educated patients in Delhi-NCR. Generic AI output would actively hurt the brand.
+This is a case study of building a production content pipeline for a premium aesthetic and wellness clinic. The writing has to be medically responsible, brand-consistent, and genuinely useful to educated patients in Delhi-NCR. Generic AI output would actively hurt the brand.
 
 Here's exactly what I built, why each decision was made, and what surprised me.
 
-<img src="/hoa-blog-pipeline.svg" alt="HOA Blog Automation Pipeline — 6-step flowchart from scheduler to publish" style="width:100%;border-radius:8px;margin:32px 0;" />
+<img src="/hoa-blog-pipeline.svg" alt="HOA Blog Automation Pipeline: 6-step flowchart from scheduler to publish" style="width:100%;border-radius:8px;margin:32px 0;" />
 
 ---
 
 ## The Problem
 
-House of Aetheria is a premium integrative clinic in Gurugram — dermatology, injectables, functional medicine, cosmetic surgery. The team has strong clinical knowledge but zero time to write. The blog had one post. The content opportunity was enormous and completely untapped.
+House of Aetheria is a premium integrative clinic in Gurugram: dermatology, injectables, functional medicine, cosmetic surgery. The team has strong clinical knowledge but zero time to write. The blog had one post. The content opportunity was enormous and completely untapped.
 
 The brief: publish 30 clinically accurate posts targeting high-intent search queries (e.g. "profhilo vs fillers gurugram", "HIFU non-surgical facelift india") without sounding like every other aesthetic clinic blog in India.
 
@@ -26,35 +27,35 @@ The brief: publish 30 clinically accurate posts targeting high-intent search que
 
 ## The Architecture
 
-The system is a Python script that runs on a Mac scheduler — no cloud server, no monthly hosting cost. Here's the full pipeline:
+The system is a Python script that runs on a Mac scheduler. No cloud server, no monthly hosting cost. Here's the full pipeline:
 
 ### Stage 1: SEO Research (Claude Haiku, ~8s)
 
 The first insight was separating SEO research from article generation into two separate API calls using two different models.
 
-Haiku handles research — it's fast, cheap, and good at structured extraction. The prompt searches Google but also explicitly targets Reddit (r/DelhiNCR, r/SkincareAddiction, r/india) and Quora India. The difference is significant: Google gives you what's ranking; Reddit gives you what patients are actually worried about at 11pm before their appointment.
+Haiku handles research. It's fast, cheap, and good at structured extraction. The prompt searches Google but also explicitly targets Reddit (r/DelhiNCR, r/SkincareAddiction, r/india) and Quora India. The difference is significant: Google gives you what's ranking; Reddit gives you what patients are actually worried about at 11pm before their appointment.
 
 Output: keywords, People Also Ask questions, LSI terms, and real community concerns.
 
 ### Stage 2: Clinical Enrichment (Claude Haiku, ~8s)
 
-A second Haiku call specifically for clinical fact-finding — separate from SEO. It searches PubMed for recent studies, finds India-specific market stats, extracts current treatment protocols, and pulls real Delhi/Gurugram pricing from competitor pages.
+A second Haiku call specifically for clinical fact-finding, separate from SEO. It searches PubMed for recent studies, finds India-specific market stats, extracts current treatment protocols, and pulls real Delhi/Gurugram pricing from competitor pages.
 
 This data is injected into the Opus prompt as a structured "CLINICAL FACTS" block. The instruction: *weave these naturally, do not list them verbatim.*
 
 ### Stage 3: Image Sourcing (Pexels API, ~3s)
 
-Auto-searches Pexels by keyword, downloads the best landscape image, converts JPEG to WebP. Saves ~40% in file size versus JPEG. Zero manual work — the right image is waiting before the article is even written.
+Auto-searches Pexels by keyword, downloads the best landscape image, converts JPEG to WebP. Saves ~40% in file size versus JPEG. Zero manual work. The right image is waiting before the article is even written.
 
 ### Stage 4: Article Generation (Claude Opus, ~25s)
 
-Opus writes the article with all context injected: SEO data, clinical facts, patient concerns, available images, brand voice rules. The system prompt took the most iteration — it bans specific words ("amazing", "revolutionary", em dashes, AI-tell words like "delve" and "leverage"), enforces a 6-section structure, and defines exact HTML patterns for comparison tables, stat callout boxes, and inline images.
+Opus writes the article with all context injected: SEO data, clinical facts, patient concerns, available images, brand voice rules. The system prompt took the most iteration. It bans specific words ("amazing", "revolutionary", em dashes, AI-tell words like "delve" and "leverage"), enforces a 6-section structure, and defines exact HTML patterns for comparison tables, stat callout boxes, and inline images.
 
 The key rule that made the biggest difference: **never use web search during generation**. Early versions used it and Claude started outputting meta-commentary and self-checks instead of HTML. Research happens before writing. Writing uses no tools.
 
 ### Stage 5: PHP Assembly
 
-The site is flat PHP on Hostinger — no CMS, no framework. The script builds a complete PHP file with:
+The site is flat PHP on Hostinger, no CMS, no framework. The script builds a complete PHP file with:
 
 - 4 JSON-LD schemas (BlogPosting with wordCount/timeRequired/author credentials, FAQPage, BreadcrumbList, Speakable WebPage)
 - 15 meta tags including og:site_name, og:locale, article:author, article:published_time
@@ -68,15 +69,15 @@ FTP upload to Hostinger, blog index card inserted (with duplicate prevention), J
 
 ## The Mistakes That Taught Me The Most
 
-**Rate limits are a model-level problem, not an account-level problem.** Early builds hit 429 errors constantly with two consecutive Opus calls. The fix: use Haiku for research and Opus for generation — they have separate rate limit buckets. No sleep() needed between calls. Per-post time dropped from ~105 seconds to ~41 seconds.
+**Rate limits are a model-level problem, not an account-level problem.** Early builds hit 429 errors constantly with two consecutive Opus calls. The fix: use Haiku for research and Opus for generation. They have separate rate limit buckets. No sleep() needed between calls. Per-post time dropped from ~105 seconds to ~41 seconds.
 
 **Case sensitivity killed images silently.** Hostinger runs Linux. `injectables-Dermal-Filler.webp` and `injectables-dermal-filler.webp` are different files. The site showed broken images for a week before I traced it. Now there's a `validate_category_images()` function that checks file existence before passing paths to Claude.
 
-**Callout boxes need a short stat.** The design has a large-font stat span next to explanatory text. When Claude wrote a full sentence in the stat span, it overflowed the box at large font sizes. The system prompt now says: "stat must be SHORT — a number or 2-word phrase only, never a sentence."
+**Callout boxes need a short stat.** The design has a large-font stat span next to explanatory text. When Claude wrote a full sentence in the stat span, it overflowed the box at large font sizes. The system prompt now says: "stat must be SHORT: a number or 2-word phrase only, never a sentence."
 
 **The blog card was being inserted on every dry run.** Had to add slug-checking before insertion so re-runs don't create duplicate cards. Found out the hard way after the same post appeared four times on the blog page.
 
-**Web search during generation breaks everything.** When tools are available during article generation, Claude hedges — it adds caveats, checks its own output, summarises sources. You get meta-content instead of actual content. The fix is architectural: all research happens in separate upstream calls, and generation gets a clean context with no tools available.
+**Web search during generation breaks everything.** When tools are available during article generation, Claude hedges. It adds caveats, checks its own output, summarises sources. You get meta-content instead of actual content. The fix is architectural: all research happens in separate upstream calls, and generation gets a clean context with no tools available.
 
 ---
 
@@ -96,10 +97,16 @@ The hard part wasn't the code. It was defining what "good" looks like for our pa
 
 The system prompt is the real product. The Python is just plumbing.
 
-Every clinic wants content. Most use generic tools and get generic output. The competitive advantage isn't in using AI — it's in having a tight enough brand voice and clinical standard that the AI has something real to work from.
+Every clinic wants content. Most use generic tools and get generic output. The competitive advantage isn't in using AI. It's in having a tight enough brand voice and clinical standard that the AI has something real to work from.
 
 The automation handles execution. The thinking still has to come from you.
+
+That's true for every AI tool I've built. The output is only as good as what you put in.
 
 ---
 
 *Built with: Python, Anthropic API (Haiku + Opus), Pexels API, ftplib, launchd, Telegram Bot API. Running live at [houseofaetheria.com](https://www.houseofaetheria.com/blog.php).*
+
+---
+
+*Enjoying insideai? Every week I publish new AI experiments and honest breakdowns. [Subscribe free.](https://insideai.in)*

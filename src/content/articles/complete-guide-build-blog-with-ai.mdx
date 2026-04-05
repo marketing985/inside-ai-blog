@@ -2,15 +2,16 @@
 title: "How I Built a Blog With AI in One Day (No Coding Required)"
 date: 2026-03-27
 tag: DEEP DIVE
-excerpt: "I'm not a developer. I built inside.ai in one day using Claude — here's every tool, every step, and every mistake."
+excerpt: "I'm not a developer. I built insideai.in in one day using Claude. Here's every tool, every step, and every mistake."
 readTime: "12 min read"
+featured: true
 ---
 
 I'm not a developer. I run a clinic. Until recently, I had never built a website from scratch.
 
-Then I spent one day with Claude and built inside.ai — a fully functional personal blog with a custom domain, newsletter signup, comments, and automatic publishing. Total cost: ₹0 per month.
+Then I spent one day with Claude and built insideai.in: a fully functional personal blog with a custom domain, newsletter signup, comments, and automatic publishing. Total cost: ₹0 per month.
 
-This is the complete guide. Every tool, every step, every decision — exactly as I did it.
+This is the complete guide. Every tool, every step, every decision. Exactly as I did it.
 
 ---
 
@@ -25,7 +26,7 @@ By the end of this guide, you'll have:
 - An About page
 - Newsletter signup powered by Beehiiv
 - Comments powered by Giscus
-- Auto-publishing — push a post to GitHub, it's live in 60 seconds
+- Auto-publishing: push a post to GitHub, it's live in 60 seconds
 - Google Search Console set up so Google indexes your site
 
 ---
@@ -46,13 +47,13 @@ Here's everything we used and why:
 | **Google Search Console** | SEO indexing | Free |
 | **Claude** | Built everything | Free / Pro plan |
 
-**Why Astro?** It's a static site generator — meaning it builds fast, loads fast, and costs nothing to host. It also supports React components natively, which matters for interactive elements like the intro animation and tag filters.
+**Why Astro?** It's a static site generator, meaning it builds fast, loads fast, and costs nothing to host. It also supports React components natively, which matters for interactive elements like the intro animation and tag filters.
 
 **Why Netlify?** It connects directly to GitHub. Every time you push a change, Netlify automatically rebuilds and deploys your site. No FTP, no manual uploads, no server management.
 
 **Why Beehiiv?** Best-in-class newsletter tool on a free tier. Readers subscribe on your site and get your posts directly in their inbox. You manage everything from the Beehiiv dashboard.
 
-**Why Giscus?** Free comments powered by GitHub Discussions. Readers sign in with GitHub to comment — keeps spam low and setup simple.
+**Why Giscus?** Free comments powered by GitHub Discussions. Readers sign in with GitHub to comment, which keeps spam low and setup simple.
 
 ---
 
@@ -61,7 +62,7 @@ Here's everything we used and why:
 GitHub stores your website's code and triggers automatic deployments every time you make a change.
 
 1. Go to **github.com** and create a free account
-2. Create a new repository — name it `inside-ai-blog` (or whatever your site is called)
+2. Create a new repository and name it `inside-ai-blog` (or whatever your site is called)
 3. Set it to **Public** (required for Giscus comments)
 4. Create a **Personal Access Token** (fine-grained):
    - Go to Settings → Developer settings → Personal access tokens → Fine-grained tokens
@@ -70,7 +71,7 @@ GitHub stores your website's code and triggers automatic deployments every time 
    - Add permission: Contents → Read and write
    - Generate and copy the token immediately (you only see it once)
 
-Keep this token safe — you'll use it as your password when pushing code.
+Keep this token safe. You'll use it as your password when pushing code.
 
 ---
 
@@ -80,17 +81,17 @@ This is where the magic happens. Open Claude Code (or Claude at claude.ai) and d
 
 I described:
 - A personal blog called inside.ai
-- Bold, editorial design — black and white with an acid green accent (#A8FF00)
+- Bold, editorial design. Black and white with an acid green accent (#A8FF00)
 - A terminal-style intro animation
 - A magazine-style homepage
 - Articles, Daily Log, and About pages
 - Newsletter and comments
 
-Claude asked me clarifying questions one at a time — layout preferences, colour choices, feature priorities. Then it:
+Claude asked me clarifying questions one at a time. Layout preferences, colour choices, feature priorities. Then it:
 
 1. Wrote a full design specification document
 2. Created a step-by-step implementation plan
-3. Executed that plan task by task — writing every file, every component, every configuration
+3. Executed that plan task by task, writing every file, every component, every configuration
 
 The framework it chose: **Astro 4 + React 18 + Tailwind CSS v3**.
 
@@ -133,8 +134,8 @@ If you own a custom domain, point it to Netlify.
 
 **In GoDaddy (or your registrar):**
 1. Go to your domain's DNS settings
-2. Find the A record for `@` — change the value to `75.2.60.5`
-3. Find the CNAME for `www` — change the value to your Netlify subdomain (e.g. `funny-name-123.netlify.app`)
+2. Find the A record for `@` and change the value to `75.2.60.5`
+3. Find the CNAME for `www` and change the value to your Netlify subdomain (e.g. `funny-name-123.netlify.app`)
 4. Save
 
 DNS propagation takes 15 minutes to a few hours. Once done, go back to Netlify → Domain management and it should show as verified. Netlify then automatically issues a free SSL certificate (the padlock).
@@ -146,7 +147,7 @@ DNS propagation takes 15 minutes to a few hours. Once done, go back to Netlify �
 Beehiiv handles your email subscriber list. Readers enter their email on your site and get your posts delivered to their inbox.
 
 1. Go to **beehiiv.com** and create a free account
-2. Create your publication — name it after your site
+2. Create your publication and name it after your site
 3. Go to **Audience** → **Subscriber Forms** → **Create new form**
 4. Click **"Get embed code"** and copy the script + iframe code
 5. Paste this code into your site's newsletter banner component
@@ -182,7 +183,7 @@ Giscus lets readers comment on your articles using their GitHub account.
 5. Copy the generated `<script>` tag
 6. Paste it into your comments component
 
-Once deployed, a full comments section with reactions appears below every article. Readers sign in with GitHub — no spam bots, no moderation headache.
+Once deployed, a full comments section with reactions appears below every article. Readers sign in with GitHub, so no spam bots and no moderation headache.
 
 ---
 
@@ -206,7 +207,7 @@ Google will start crawling your site within a few days. You can track which page
 
 Once everything is set up, publishing a post is simple:
 
-**Option A — GitHub web editor (what I do now):**
+**Option A: GitHub web editor (what I do now):**
 1. Go to github.com → your repository → `src/content/articles/`
 2. Click **"Add file"** → **"Create new file"**
 3. Name it `your-post-title.mdx`
@@ -226,10 +227,10 @@ Your post content goes here.
 
 5. Write your post below the frontmatter
 6. Click **"Commit changes"**
-7. Netlify auto-deploys — your post is live in about 60 seconds
+7. Netlify auto-deploys. Your post is live in about 60 seconds
 
-**Option B — Tina CMS (visual editor, coming soon):**
-Tina CMS gives you a browser-based writing interface — like Google Docs, but it publishes directly to your site. I'm still setting this up, but when it works, the workflow will be: open `/admin` on your site, write, hit publish. No GitHub, no frontmatter, no code.
+**Option B: Tina CMS (visual editor):**
+Tina CMS gives you a browser-based writing interface, like Google Docs, that publishes directly to your site. Setup is straightforward in theory: install the package, connect GitHub, open `/admin`, write, publish. Note: branch indexing can fail silently if GitHub App permissions aren't configured correctly. If `/admin` returns a 404, fall back to Option A until it resolves.
 
 ---
 
@@ -246,7 +247,7 @@ Tina CMS gives you a browser-based writing interface — like Google Docs, but i
 | Google Search Console | Free |
 | **Total monthly** | **₹0** |
 
-The only cost is your domain — which you probably already own if you're reading this.
+The only cost is your domain, which you probably already own if you're reading this.
 
 ---
 
@@ -266,7 +267,7 @@ The site is live. Now the work begins.
 
 **Week 1:** Write 3 posts. Tell 10 people. Share on LinkedIn.
 
-**Month 1:** Publish consistently — 2-3 posts per week. Don't optimise, just write.
+**Month 1:** Publish consistently. 2-3 posts per week. Don't optimise, just write.
 
 **Month 3:** Look at your Google Search Console data. What's getting impressions? Write more of that.
 
@@ -277,3 +278,7 @@ The site is the easy part. The writing is the hard part. But at least the site i
 ---
 
 *Built this in one day using Claude. If you want to do the same, start at Step 1 and follow along. The whole thing costs nothing and takes one focused day.*
+
+---
+
+*Enjoying insideai? Every week I publish new AI experiments and honest breakdowns. [Subscribe free.](https://insideai.in)*

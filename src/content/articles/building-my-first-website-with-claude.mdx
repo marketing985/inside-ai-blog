@@ -2,48 +2,125 @@
 title: "How I Built My First Website Using Claude"
 date: 2026-03-26
 tag: DEEP DIVE
-excerpt: "I had never built a website before. Then I spent a day with Claude and now inside.ai is live. Here's exactly what happened."
-readTime: "4 min read"
+excerpt: "I had never built a website before. Then I spent a day with Claude and now insideai.in is live. Here's exactly what happened."
+readTime: "7 min read"
+featured: false
 ---
 
 I'm not a developer. I run a clinic. I know nothing about code.
 
-But I wanted a personal blog — somewhere to document how I actually use AI tools in my day-to-day life. So I decided to build it myself, using AI to do the building.
+But I wanted a personal blog. Somewhere to document how I actually use AI tools in my day-to-day life. So I decided to build it myself, using AI to do the building.
+
+This is what happened.
+
+---
 
 ## The idea
 
-I own the domain inside.ai. It was just sitting there. I figured — if I'm going to write about AI, I should at least try to use it to build the thing I'm writing on.
+I own the domain insideai.in. It was just sitting there. I figured: if I'm going to write about AI, I should at least try to use it to build the thing I'm writing on.
+
+The goal was simple. A clean personal blog. Bold design. Somewhere to publish once a week.
+
+What I didn't expect was that it would be live, fully functional, with a custom domain, newsletter signup, and comments. In a single day.
+
+---
 
 ## What I used
 
-- **Claude** (claude.ai) — did all the coding, planning, and decision-making
-- **Astro** — the framework that runs the site (Claude picked it)
-- **Netlify** — free hosting, connects to GitHub
-- **Tina CMS** — browser-based writing interface (still setting this up)
-- **Beehiiv** — newsletter tool for when you subscribe
+- **Claude**: did all the coding, planning, and decision-making
+- **Astro**: the framework that runs the site (Claude picked it)
+- **Netlify**: free hosting, connects directly to GitHub
+- **GitHub**: stores the code, triggers automatic deploys
+- **Beehiiv**: newsletter tool for subscriber signups
+- **Giscus**: GitHub-powered comments on every article
 
-Total cost: ₹0 per month. I already owned the domain.
+Total cost: Rs. 0 per month. I already owned the domain.
+
+---
 
 ## How it actually worked
 
 I opened Claude Code and described what I wanted. A personal blog. Bold design. Acid green accent colour. A terminal-style intro animation. A magazine-style homepage.
 
-Claude asked me questions one at a time — layout preferences, colour choices, whether I wanted comments, a newsletter. Then it wrote a full design spec. Then a step-by-step build plan. Then it executed that plan, task by task.
+Claude asked me questions one at a time. Layout preferences, colour choices, whether I wanted comments or a newsletter. Then it wrote a full design spec. Then a step-by-step build plan. Then it executed that plan, task by task.
 
 I didn't write a single line of code.
 
 What I did do: answer questions, copy-paste commands into Terminal, click buttons on GitHub and Netlify, and make decisions about how I wanted things to look.
 
+That's it. That was my job.
+
+---
+
+## What took the longest
+
+The code itself was the fast part. Claude generated everything in under two hours.
+
+The slow part was the accounts.
+
+Every service has its own setup flow. GitHub needs a personal access token. Netlify needs to be connected to GitHub. The domain DNS needs specific records pointed at Netlify's servers. Beehiiv needs a form embed. Giscus needs the GitHub repo to be public and Discussions to be enabled.
+
+None of this is hard. But each step is new if you've never done it before, and every screen looks slightly different from every tutorial you find online.
+
+Claude walked me through all of it. Every screen, every setting, every step. When something didn't match what it expected, I described what I was seeing and it adjusted.
+
+The entire setup, including waiting for DNS to propagate, took about six hours.
+
+---
+
+## What broke
+
+Three things broke during the build.
+
+The Tina CMS visual editor never completed its setup. Branch indexing failed silently. I spent an hour on it before accepting the workaround: write posts directly in the GitHub browser editor instead. It's fine.
+
+The article frontmatter got corrupted once when I edited through GitHub's web interface. Astro's schema validation threw a build error. The fix was finding the extra whitespace Claude had missed in the indentation.
+
+The Netlify build command drifted. At some point the build settings in Netlify's UI changed from what the project expected. Fixed with a `netlify.toml` file that locks it in place.
+
+None of these were serious. All three were solved by describing the error to Claude and waiting.
+
+---
+
 ## What surprised me
 
-It works. The site is live. The intro animation plays. The homepage loads. Every page exists.
+The site looks genuinely good.
 
-The hardest part wasn't the code — it was setting up the accounts. GitHub, Netlify, Tina CMS. Each one has its own steps and screens. Claude walked me through every single one.
+I was prepared for something functional but rough. What I got was a bold editorial design with a terminal animation intro, a proper homepage grid, tag filtering, and a dark/light mode that actually works.
 
-## What's next
+The hardest creative decision was committing to the acid green (#A8FF00) accent colour. It felt aggressive in isolation. On the live site it feels intentional.
 
-I'm still setting up the newsletter (Beehiiv) and comments (Giscus). And I'm writing this post directly on GitHub because the visual editor isn't quite ready yet.
+---
 
-But the point stands: if you have an idea and Claude, you can build almost anything. You just need to be willing to follow instructions and not panic when something breaks.
+## What's live on the site
+
+- Homepage with terminal-style intro animation
+- Articles section with tag filtering
+- Daily Log section for short entries
+- About page
+- Newsletter signup (Beehiiv) on every page
+- Comments on article pages (Giscus)
+- Privacy policy and terms pages
+- Google Search Console verified
+
+---
+
+## What this means
+
+If you have an idea and Claude, you can build almost anything.
+
+You need to be willing to follow instructions, answer questions, and not panic when something breaks.
 
 Something always breaks. Claude fixes it.
+
+The harder question isn't whether you can build it. It's whether you'll keep writing once it's live.
+
+That part is still on you.
+
+---
+
+*Want the step-by-step guide with every command, every setting, and every tool? [Read the complete walkthrough here.](/articles/complete-guide-build-blog-with-ai)*
+
+---
+
+*Enjoying insideai? Every week I publish new AI experiments and honest breakdowns. [Subscribe free.](https://insideai.in)*
